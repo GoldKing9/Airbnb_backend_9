@@ -10,6 +10,7 @@
 - test : 테스트 코드, 리펙토링 테스트 코드 추가
 
 ## git관리 규칙
+```java
 src/
 |-- main/
 |   |-- java/
@@ -65,3 +66,4 @@ src/
                 |-- review/
                     |-- ReviewControllerTest.java
                     |-- ReviewServiceTest.java
+```
