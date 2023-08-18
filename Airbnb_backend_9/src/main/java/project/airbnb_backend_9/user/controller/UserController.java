@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
+import project.airbnb_backend_9.user.dto.response.ValidationErrorDTO;
+import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
 import project.airbnb_backend_9.user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -58,37 +62,39 @@ public class UserController {
     }
 
     @PostMapping("/api/user/signup")
-    public ResponseEntity signup(@Validated @RequestBody SignUpDTO signUpDTO, BindingResult bindingResult){
+    public ResponseEntity<List<ValidationErrorDTO>> signup(@Validated @RequestBody SignUpDTO signUpDTO, BindingResult bindingResult){
+        //회원가입시 검증
         if(bindingResult.hasErrors()){
-            StringBuilder sb = new StringBuilder();
+        List<ValidationErrorDTO> list = new ArrayList<>();
             bindingResult.getAllErrors().forEach(objectError -> {
                 FieldError field = (FieldError) objectError;
                 String message = objectError.getDefaultMessage();
-                sb.append("field : ");
-                sb.append(field.getField());
-                sb.append("\n message : ");
-                sb.append(message);
+
+                list.add(new ValidationErrorDTO(field.getField(), message));
 
                 log.info("field : {}", field.getField());
                 log.info("message : {}", message);
 
             });
-                log.info("원인 : {}", sb.toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sb.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(list);
         }
-        userService.signup(signUpDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("ok");
+        userService.register(signUpDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(new ArrayList<>());
     }
 
     @PostMapping("/api/auth/user/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
+    public PrincipalDetails logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails p = (PrincipalDetails)authentication.getPrincipal();
+
         if(authentication != null){
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
 
 
-        return "로그아웃 성공";
+        return principalDetails;
     }
 
 

@@ -14,7 +14,7 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public void signup(SignUpDTO signUpDTO) {
+    public void register(SignUpDTO signUpDTO) {
         String password = bCryptPasswordEncoder.encode(signUpDTO.getPassword());
         Users UserEntity = signUpDTO.toEntity(password);
 

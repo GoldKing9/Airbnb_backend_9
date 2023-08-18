@@ -42,7 +42,7 @@ class UserServiceTest {
                 .birth("2022-12-03")
                 .build();
 
-        userService.signup(signup);
+        userService.register(signup);
 
         Users users = userRepository.findByEmail("aaa@gmail.com");
         assertThat(users.getEmail()).isEqualTo(signup.getEmail());
