@@ -31,35 +31,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-
-    @GetMapping({"","/"})
-    public String index(){
-        return "index";
-    }
-
-    @GetMapping("/user")
-    public String user(){
-        return "user";
-    }
-
-    @GetMapping("/api/auth")
-    public String test(){
-        return "/api/auth";
-    }
-//    @GetMapping("/login")
-//    public String login(){
-//        return "login";
-//    }
-    @GetMapping("/join")
-    public String join(){
-        return "join";
-    }
-
-    @GetMapping("/api/user/login")
-    public String login(){
-        return "login";
-    }
+    
 
     @PostMapping("/api/user/signup")
     public ResponseEntity<List<ValidationErrorDTO>> signup(@Validated @RequestBody SignUpDTO signUpDTO, BindingResult bindingResult){
@@ -74,9 +46,7 @@ public class UserController {
 
                 log.info("field : {}", field.getField());
                 log.info("message : {}", message);
-
-            });
-
+        });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(list);
         }
         userService.register(signUpDTO);

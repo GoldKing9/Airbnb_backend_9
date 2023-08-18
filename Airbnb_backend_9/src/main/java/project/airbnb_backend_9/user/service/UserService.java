@@ -15,6 +15,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     public void register(SignUpDTO signUpDTO) {
+
+        String email = signUpDTO.getEmail();
+        Users signUpEmail = userRepository.findByEmail(email);
+        //이메일 중복 검증
+        if(signUpEmail != null){
+            log.info("이미 존재하는 이메일 입니다");
+            throw new IllegalArgumentException();
+        }
+
+
         String password = bCryptPasswordEncoder.encode(signUpDTO.getPassword());
         Users UserEntity = signUpDTO.toEntity(password);
 
