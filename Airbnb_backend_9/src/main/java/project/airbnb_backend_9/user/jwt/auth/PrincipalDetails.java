@@ -1,14 +1,19 @@
 package project.airbnb_backend_9.user.jwt.auth;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.airbnb_backend_9.domain.Role;
 import project.airbnb_backend_9.domain.Users;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다
 //로그인 진행이 완료가 되면 시큐리티가 가진 session을 만들어 준다. (Security ContextHolder)라는 키값을 저장
@@ -18,6 +23,8 @@ import java.util.Collection;
 //Security가 가지고 있는 Session영역이 있다. 여기에다 세션정보를 저장해주는데, 여기 들어갈 수 있는 객체가 Authentication => 이 객체안에 유저정보를 저장할 때 UserDetails타입 이어야함
 // Security Session => Authentication => UserDetails(PrincipalDetails)
 @RequiredArgsConstructor
+@Getter
+@Slf4j
 public class PrincipalDetails implements UserDetails {
 
     private final Users users;//콤포지션
@@ -25,14 +32,8 @@ public class PrincipalDetails implements UserDetails {
     //해당 Users의 권한을 리턴하는 곳!
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return String.valueOf(users.getRole());
-            }
-        }); //add()안에 들어가는 타입 GrantedAuthority
-        return collect;
+
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

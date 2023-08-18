@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import project.airbnb_backend_9.repository.UserRepository;
 import project.airbnb_backend_9.user.jwt.JwtAuthenticationFilter;
+import project.airbnb_backend_9.user.jwt.JwtAuthorizationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -22,6 +24,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final CorsConfig corsConfig;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -37,7 +40,7 @@ public class SecurityConfig {
                         authorize -> authorize
                                 .antMatchers("/api/user/**", "/api/reviews/**","/api/accommodation/**").permitAll()//가입, 리뷰조회, 숙소조회는 누구나 접근 가능
                                 .antMatchers("/api/auth/**")
-                                .access("hasRole('guest') or hasRole('host')")
+                                .access("hasRole('USER')")
                                 .anyRequest().permitAll())
                 .build();
 //                .loginPage("/login") //권한이 없는 페이지를 요청했을 때 보여줄 설정
@@ -54,8 +57,8 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
                     .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager));
-//                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }
 

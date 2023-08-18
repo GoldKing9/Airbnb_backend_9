@@ -1,6 +1,7 @@
 package project.airbnb_backend_9.user.jwt;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +36,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             //1. username, password 받음
             ObjectMapper om = new ObjectMapper();
             LoginUserDTO loginUserDTO = om.readValue(request.getInputStream(), LoginUserDTO.class);
-            log.info("user : {}", loginUserDTO);
+            log.info("user : {}", loginUserDTO.toString());
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword());
             log.info("authenticationToken 생성");
@@ -67,9 +68,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
         //JWT 생성
-        JWT.create()
+        String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME));
-        
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME)) //토큰 유효시간 설정
+                .withClaim("id", principalDetails.getUsers().getUserId()) //비공개 클레임 내가 넣고 싶은 키, 값을 넣어줌
+                .withClaim("email", principalDetails.getUsers().getEmail())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));// 내 서버의 고유한 값
+
+        //사용자에게 응답할 response 헤더에
+        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX+jwtToken);
+
+
     }
 }
