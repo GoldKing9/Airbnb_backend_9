@@ -31,7 +31,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    
+
 
     @PostMapping("/api/user/signup")
     public ResponseEntity<List<ValidationErrorDTO>> signup(@Validated @RequestBody SignUpDTO signUpDTO, BindingResult bindingResult){

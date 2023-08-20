@@ -11,10 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import project.airbnb_backend_9.repository.UserRepository;
 import project.airbnb_backend_9.user.jwt.JwtAuthenticationFilter;
 import project.airbnb_backend_9.user.jwt.JwtAuthorizationFilter;
+import project.airbnb_backend_9.user.jwt.JwtExceptionFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -43,10 +46,6 @@ public class SecurityConfig {
                                 .access("hasRole('USER')")
                                 .anyRequest().permitAll())
                 .build();
-//                .loginPage("/login") //권한이 없는 페이지를 요청했을 때 보여줄 설정
-//                .usernameParameter("email")
-//                .loginProcessingUrl("/login") // /login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행 -> 컨트롤러에 /login을 만들어주지 않아도 됨, 시큐리티가 알아서 해줄것임
-//                .defaultSuccessUrl("/");// 로그인에 성공했을 때 이동할 페이지
     }
 
 
@@ -58,6 +57,7 @@ public class SecurityConfig {
             http
                     .addFilter(corsConfig.corsFilter())
                     .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthorizationFilter.class)
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }

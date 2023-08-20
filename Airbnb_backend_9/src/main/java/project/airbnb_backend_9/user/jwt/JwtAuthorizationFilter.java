@@ -34,7 +34,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("인증이나 권한이 필요한 주소 요청이 됨");
         log.info("JwtAuthorizationFilter 실행");
-        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
 
 
         //header가 있는지 확인
@@ -61,7 +61,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
              * principalDetails.getAuthorities() : 권한을 알려줌
              * 이는 정상적인 로그인 요청 처리가 아님 -> JWT 토큰 서명을 통해 만든 서명임
              *
-             * 정상이면 Athentication객체를 만들어준다u
+             * 정상이면 Athentication객체를 만들어준다
              */
 
             // credentials에 password를 넣어야하지만 강제로 만들기 때문에 넣지 않음 -> Authentication객체를 만들기 위해
