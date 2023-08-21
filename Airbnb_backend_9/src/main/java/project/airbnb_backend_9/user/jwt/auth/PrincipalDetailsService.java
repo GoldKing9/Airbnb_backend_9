@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.airbnb_backend_9.domain.Users;
-import project.airbnb_backend_9.repository.UserRepository;
+import project.airbnb_backend_9.repository.user.UserRepository;
 
 //시큐리티 설정에서 .loginProcessingUrl("/login")을 걸어놨으므로
 // /login 요청이 오면, 자동으로 UserDetailsService타입으로 IoC되어있는 loadUserByUsername 함수가 실행됨 -> 규칙임

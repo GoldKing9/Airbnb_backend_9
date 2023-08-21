@@ -7,10 +7,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Role;
 import project.airbnb_backend_9.domain.Users;
-import project.airbnb_backend_9.repository.UserRepository;
+import project.airbnb_backend_9.repository.user.UserRepository;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

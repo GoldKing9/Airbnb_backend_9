@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.airbnb_backend_9.domain.Users;
-import project.airbnb_backend_9.repository.UserRepository;
+import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
+import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -30,5 +32,10 @@ public class UserService {
 
         Users users = userRepository.save(UserEntity);
         log.info("user signup ok : {}",users.toString());
+    }
+
+    public UserProfileDTO getUserProfile(Long userId) {
+
+        return userRepository.findUserProfile(userId);
     }
 }
