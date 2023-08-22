@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
-@Builder
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +24,19 @@ public class Accommodation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private Users users;
-    private LocalDateTime createAt;
+    private LocalDateTime createAt; //
+
+    @Builder
+    public Accommodation(String mainAddress, String detailAddress, Long guest, Long bedroom, Long bed, Long bathroom, String acmdName, String acmdDescription, Long price, Users users) {
+        this.mainAddress = mainAddress;
+        this.detailAddress = detailAddress;
+        this.guest = guest;
+        this.bedroom = bedroom;
+        this.bed = bed;
+        this.bathroom = bathroom;
+        this.acmdName = acmdName;
+        this.acmdDescription = acmdDescription;
+        this.price = price;
+        this.users = users;
+    }
 }
