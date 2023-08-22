@@ -1,5 +1,6 @@
 package project.airbnb_backend_9.domain;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
+@Builder
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
