@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import project.airbnb_backend_9.user.dto.AccommodationDTO;
-import project.airbnb_backend_9.user.dto.ReviewDTO;
+import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
+import project.airbnb_backend_9.user.dto.ReviewInfoDTO;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class UserProfileDTO {
     private Long commentCnt;
     private Double hostRating;
     private String userDescription;
-    private List<ReviewDTO> reviews;
-    private List<AccommodationDTO> accommodations;
+    private List<ReviewInfoDTO> reviews;
+    private List<AccommodationInfoDTO> accommodations;
 
 
     public UserProfileDTO(String username, Long commentCnt, Double hostRating, String userDescription) {

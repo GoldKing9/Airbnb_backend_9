@@ -6,8 +6,8 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import project.airbnb_backend_9.user.dto.AccommodationDTO;
-import project.airbnb_backend_9.user.dto.ReviewDTO;
+import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
+import project.airbnb_backend_9.user.dto.ReviewInfoDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 
 import java.util.List;
@@ -51,8 +51,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .where(review.accommodation.eq(accommodation));
 
 
-        List<ReviewDTO> reviews = queryFactory
-                .select(Projections.constructor(ReviewDTO.class,
+        List<ReviewInfoDTO> reviews = queryFactory
+                .select(Projections.constructor(ReviewInfoDTO.class,
                         review.users.userId.as("userId"),
                         review.users.username,
                         Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt),
@@ -65,8 +65,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .limit(6)
                 .fetch();
 
-        List<AccommodationDTO> accommodations = queryFactory
-                .select(Projections.constructor(AccommodationDTO.class,
+        List<AccommodationInfoDTO> accommodations = queryFactory
+                .select(Projections.constructor(AccommodationInfoDTO.class,
                         accommodation.accommodationId,
                         url,
                         avg,
