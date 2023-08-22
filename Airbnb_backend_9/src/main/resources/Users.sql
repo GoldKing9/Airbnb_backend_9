@@ -1,0 +1,10 @@
+insert into Users (username, email, password, birth, user_description, role) values ('kcrowch0', 'kcrowch0@gmail.com', 'fhxz3e9hc4406', '2022-09-14', 'Donec ut mauris eget massa tempor convallis.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('rkezourec1', 'rkezourec1@gmail.com', 'rvgm66s93', '2023-07-17', 'Morbi quis tortor id nulla ultrices aliquet.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('etittershill2', 'etittershill2@gmail.com', 'loy0g89e', '2023-03-18', 'Phasellus in felis.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('bcharter3', 'bcharter3@gmail.com', '29e27n', '2023-01-26', 'Aenean lectus.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('chuortic4', 'chuortic4@gmail.com', 'gsvoq', '2023-08-01', 'Etiam vel augue.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('abrodnecke5', 'abrodnecke5@gmail.com', '66615w2x8k978', '2023-08-05', 'Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('nmcevilly6', 'nmcevilly6@gmail.com', 'c23847294', '2023-04-20', 'Nulla tellus.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('lrockhill7', 'lrockhill7@gmail.com', '212wn3vsw', '2023-04-12', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('ibayford8', 'ibayford8@gmail.com', 'k89g901703jr', '2023-02-20', 'Vivamus in felis eu sapien cursus vestibulum.', 'USER');
+insert into Users (username, email, password, birth, user_description, role) values ('agaratty9', 'agaratty9@gmail.com', 'okif', '2022-10-01', 'Vestibulum sed magna at nunc commodo placerat.', 'USER');

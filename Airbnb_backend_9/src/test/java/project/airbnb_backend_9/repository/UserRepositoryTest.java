@@ -1,6 +1,5 @@
 package project.airbnb_backend_9.repository;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import project.airbnb_backend_9.domain.Role;
 import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.repository.user.UserRepository;
-import project.airbnb_backend_9.user.dto.UserDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
