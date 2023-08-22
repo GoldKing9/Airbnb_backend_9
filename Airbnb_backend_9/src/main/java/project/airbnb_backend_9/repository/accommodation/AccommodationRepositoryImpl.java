@@ -1,17 +1,11 @@
 package project.airbnb_backend_9.repository.accommodation;
 
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import project.airbnb_backend_9.domain.QAccommodation;
-import project.airbnb_backend_9.domain.QImage;
-import project.airbnb_backend_9.domain.QReview;
-import project.airbnb_backend_9.user.dto.AccommodationDTO;
-import project.airbnb_backend_9.user.dto.ReviewDTO;
+import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
 
 import java.util.List;
 
@@ -24,7 +18,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<AccommodationDTO> getAccommodations(Long userId) {
+    public List<AccommodationInfoDTO> getAccommodations(Long userId) {
         JPQLQuery<String> url = queryFactory
                 .select(image.acmdImageUrl)
                 .from(image)
@@ -44,7 +38,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
 
 
         return queryFactory
-                .select(Projections.constructor(AccommodationDTO.class,
+                .select(Projections.constructor(AccommodationInfoDTO.class,
                         accommodation.accommodationId,
                         url,
                         avg,

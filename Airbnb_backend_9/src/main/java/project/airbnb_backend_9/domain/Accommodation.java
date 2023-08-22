@@ -1,12 +1,14 @@
 package project.airbnb_backend_9.domain;
 
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
+@ToString
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
