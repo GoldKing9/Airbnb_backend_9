@@ -50,7 +50,7 @@ public class Review {
     }
 
     @Builder
-    public Review(Long rating, String comment, Users users, Accommodation accommodation){
+    public Review(int rating, String comment, Users users, Accommodation accommodation){
         this.rating=rating;
         this.comment=comment;
         this.users=users;

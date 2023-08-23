@@ -76,7 +76,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
   
   @Override
     public SingleAcmdResponse findAccommodation(Long accommodationId){
-        SingleAcmdResponse singleAcmdResponse = jpaQueryFactory.select(Projections.constructor(SingleAcmdResponse.class,
+        SingleAcmdResponse singleAcmdResponse = queryFactory.select(Projections.constructor(SingleAcmdResponse.class,
                 accommodation.mainAddress,
                 accommodation.detailAddress,
                 accommodation.price,
@@ -94,7 +94,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                 .leftJoin(review).on(accommodation.eq(review.accommodation))
                 .where(accommodation.accommodationId.eq(accommodationId))
                 .fetchOne();
-        List<ImageDto> images = jpaQueryFactory.select(Projections.constructor(ImageDto.class,
+        List<ImageDto> images = queryFactory.select(Projections.constructor(ImageDto.class,
                         image.acmdImageUrl
                 ))
                 .from(accommodation)
@@ -107,7 +107,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
   
     @Override
     public PageImpl<AccommodationDataDto> search(Pageable pageable, SearchRequest request){
-        List<AccommodationDataDto> accommodations = jpaQueryFactory.select(Projections.constructor(AccommodationDataDto.class,
+        List<AccommodationDataDto> accommodations = queryFactory.select(Projections.constructor(AccommodationDataDto.class,
                 accommodation.accommodationId,
                 accommodation.mainAddress,
                 accommodation.price,
@@ -130,7 +130,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                 .fetch();
         fillAccommodationImages(accommodations);
 
-        Long count = jpaQueryFactory.select(
+        Long count = queryFactory.select(
                 accommodation.countDistinct()
         )
                 .from(accommodation)
@@ -153,7 +153,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                 .map(AccommodationDataDto::getAccommodationId)
                 .collect(Collectors.toList());
 
-        Map<Long, List<ImageDto>> imageMap = jpaQueryFactory.select(
+        Map<Long, List<ImageDto>> imageMap = queryFactory.select(
                 accommodation.accommodationId,
                 image.acmdImageUrl
                 )
