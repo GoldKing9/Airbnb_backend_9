@@ -30,7 +30,6 @@ public class AccommodationController {
     // 숙박 삭제
     @DeleteMapping("/api/auth/accommodation/{accommodationId}")
     public void deleteAccommodation() {
-        System.out.println("true = " + true);
     }
 
 }
