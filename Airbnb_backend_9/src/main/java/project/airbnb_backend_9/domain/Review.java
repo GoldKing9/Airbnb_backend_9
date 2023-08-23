@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
+    @Lob
     private String comment;
     private Long rating;
     private LocalDateTime createdAt;

@@ -1,7 +1,7 @@
 package project.airbnb_backend_9.domain;
 
-import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,14 +27,16 @@ public class Accommodation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private Users users;
+  
+
     @Builder
-    public Accommodation(String mainAddress, String detailAddress, Long bed, Long bedroom, Long bathroom, Long guest, String acmdName, String acmdDescription, Long price, Users users) {
+    public Accommodation(String mainAddress, String detailAddress, Long guest, Long bedroom, Long bed, Long bathroom, String acmdName, String acmdDescription, Long price, Users users) {
         this.mainAddress = mainAddress;
         this.detailAddress = detailAddress;
-        this.bed = bed;
-        this.bedroom = bedroom;
-        this.bathroom = bathroom;
         this.guest = guest;
+        this.bedroom = bedroom;
+        this.bed = bed;
+        this.bathroom = bathroom;
         this.acmdName = acmdName;
         this.acmdDescription = acmdDescription;
         this.price = price;

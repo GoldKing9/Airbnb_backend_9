@@ -1,35 +1,79 @@
 package project.airbnb_backend_9.repository.accommodation;
 
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+
+import project.airbnb_backend_9.user.dto.AccommodationDTO;
 import project.airbnb_backend_9.accommodation.dto.request.SearchRequest;
 import project.airbnb_backend_9.accommodation.dto.response.AccommodationDataDto;
 import project.airbnb_backend_9.accommodation.dto.response.ImageDto;
 import project.airbnb_backend_9.accommodation.dto.response.SingleAcmdResponse;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import static project.airbnb_backend_9.domain.QAccommodation.accommodation;
+import static project.airbnb_backend_9.domain.QImage.image;
+import static project.airbnb_backend_9.domain.QReview.review;
 import static project.airbnb_backend_9.domain.QImage.*;
 import static project.airbnb_backend_9.domain.QReservation.reservation;
 import static project.airbnb_backend_9.domain.QReview.*;
+
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import static org.springframework.util.ObjectUtils.isEmpty;
+
+import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+
 @RequiredArgsConstructor
 public class AccommodationRepositoryImpl implements AccommodationRepositoryCustom{
-    private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory queryFactory;
+
     @Override
+    public List<AccommodationDTO> getAccommodations(Long userId) {
+        JPQLQuery<String> url = queryFactory
+                .select(image.acmdImageUrl)
+                .from(image)
+                .where(image.imageId.eq(
+                        JPAExpressions
+                                .select(image.imageId.min())
+                                .from(image)
+                                .where(image.accommodation.eq(accommodation))
+                ));
+
+        JPQLQuery<Double> avg = queryFactory
+                .select(review.rating.avg())
+                .from(review)
+                .where(review.accommodation.eq(accommodation));
+
+
+        return queryFactory
+                .select(Projections.constructor(AccommodationDTO.class,
+                        accommodation.accommodationId,
+                        url,
+                        avg,
+                        accommodation.mainAddress
+                ))
+                .from(accommodation)
+                .where(accommodation.users.userId.eq(userId))
+                .limit(10)
+                .fetch();
+    }
+ 
+  
+  @Override
     public SingleAcmdResponse findAccommodation(Long accommodationId){
         SingleAcmdResponse singleAcmdResponse = jpaQueryFactory.select(Projections.constructor(SingleAcmdResponse.class,
                 accommodation.mainAddress,
@@ -59,6 +103,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
         singleAcmdResponse.setImages(images);
         return singleAcmdResponse;
     }
+  
     @Override
     public PageImpl<AccommodationDataDto> search(Pageable pageable, SearchRequest request){
         List<AccommodationDataDto> accommodations = jpaQueryFactory.select(Projections.constructor(AccommodationDataDto.class,
@@ -101,6 +146,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                 .fetchOne();
         return new PageImpl<>(accommodations, pageable, count);
     }
+  
     private void fillAccommodationImages(List<AccommodationDataDto> accommodations){
         List<Long> acmdId = accommodations.stream()
                 .map(AccommodationDataDto::getAccommodationId)
@@ -119,6 +165,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                     a.setImages(imageMap.getOrDefault(a.getAccommodationId(),new ArrayList<>()))
                 );
     }
+  
     private BooleanExpression periodDate(LocalDate checkIn, LocalDate checkout) {
         if (checkIn == null || checkout == null) {
             return null;
@@ -134,6 +181,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                         )
         );
     }
+  
     //BooleanExpression은 null 반환 시 자동으로 조건절에서 제거 된다. (단, 모든 조건이 null이 발생 시 전체 엔티티를 불러오게 되므로 대장애가 발생할 수 있음)
     private BooleanExpression betweenPrice(Long minPrice, Long maxPrice) {
         BooleanExpression isMinPrice = accommodation.price.goe(minPrice);
@@ -161,4 +209,5 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
     private BooleanExpression containMainAddress(String mainAddress) {
         return isEmpty(mainAddress) ? null : accommodation.mainAddress.contains(mainAddress);
     }
+  
 }
