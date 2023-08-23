@@ -1,5 +1,6 @@
 package project.airbnb_backend_9.domain;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,8 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
+    @Lob
     private String comment;
     private Long rating;
     private LocalDateTime createdAt;
@@ -21,5 +23,11 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodationId")
     private Accommodation accommodation;
-
+    @Builder
+    public Review(Long rating, String comment, Users users, Accommodation accommodation){
+        this.rating=rating;
+        this.comment=comment;
+        this.users=users;
+        this.accommodation=accommodation;
+    }
 }

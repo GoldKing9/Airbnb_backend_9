@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.repository;
+package project.airbnb_backend_9.repository.image;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import project.airbnb_backend_9.domain.Image;
