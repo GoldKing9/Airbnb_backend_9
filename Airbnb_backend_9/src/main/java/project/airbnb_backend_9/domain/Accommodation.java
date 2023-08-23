@@ -24,7 +24,6 @@ public class Accommodation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private Users users;
-    private LocalDateTime createAt; //
 
     @Builder
     public Accommodation(String mainAddress, String detailAddress, Long guest, Long bedroom, Long bed, Long bathroom, String acmdName, String acmdDescription, Long price, Users users) {
