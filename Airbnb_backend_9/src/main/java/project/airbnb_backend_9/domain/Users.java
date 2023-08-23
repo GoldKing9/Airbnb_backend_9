@@ -20,9 +20,11 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
     private LocalDateTime birth;
+    @Lob
     private String userDescription;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -35,12 +37,13 @@ public class Users {
         this.email = email;
         this.password = password;
         this.birth = LocalDate.parse(birth, DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
-//        this.birth = birth;
         this.userDescription = userDescription;
         this.role = role;
     }
+    public void updateDescription(String userDescription){
+        this.userDescription = userDescription;
+    }
 
-    //회원가입시 사용자 소개작성 없이 사용
-//    @Builder(builderMethodName = "register")
+
 
 }

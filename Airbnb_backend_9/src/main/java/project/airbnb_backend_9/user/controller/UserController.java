@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
+import project.airbnb_backend_9.user.dto.request.UpdateUserDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 import project.airbnb_backend_9.user.dto.response.ValidationErrorDTO;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
@@ -69,4 +70,11 @@ public class UserController {
 
         return userService.getUserProfile(userId);
     }
+    @PutMapping("/api/auth/user")
+    public void updateUser(
+            @RequestBody UpdateUserDTO updateUserDTO,
+            @AuthenticationPrincipal PrincipalDetails principalDetails){
+        userService.updateProfile(updateUserDTO, principalDetails.getUsers());
+    }
+
 }

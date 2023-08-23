@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
+import project.airbnb_backend_9.user.dto.request.UpdateUserDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 
 @Slf4j
@@ -16,6 +18,8 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Transactional
     public void register(SignUpDTO signUpDTO) {
 
         String email = signUpDTO.getEmail();
@@ -34,8 +38,14 @@ public class UserService {
         log.info("user signup ok : {}",users.toString());
     }
 
+    @Transactional(readOnly = true)
     public UserProfileDTO getUserProfile(Long userId) {
-
         return userRepository.findUserProfile(userId);
+    }
+
+    @Transactional
+    public void updateProfile(UpdateUserDTO updateUserDTO, Users users) {
+        users.updateDescription(updateUserDTO.getUserDescription());
+        userRepository.save(users);
     }
 }

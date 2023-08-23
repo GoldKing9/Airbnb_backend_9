@@ -30,9 +30,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         review.rating.avg().as("hostRating"),
                         users.userDescription))
                 .from(users)
-                .join(accommodation).on(accommodation.users.eq(users))
-                .join(review).on(review.accommodation.eq(accommodation))
-                .where(users.userId.eq(userId))
+                .leftJoin(accommodation).on(accommodation.users.eq(users))
+                .leftJoin(review).on(review.accommodation.eq(accommodation))
+                .where(
+                        users.userId.eq(userId)
+                )
                 .fetchOne();
 
         JPQLQuery<String> url = queryFactory

@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.repository;
+package project.airbnb_backend_9.repository.user;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,9 +61,12 @@ class UserRepositoryTest {
     @Test
     @DisplayName("호스트 정보 조회")
     public void getHostInfo(){
-        UserProfileDTO userProfile = userRepository.findUserProfile(1L);
+
+        UserProfileDTO userProfile = userRepository.findUserProfile(10L);
 
             System.out.println(userProfile.toString());
     }
+
+
 
 }
