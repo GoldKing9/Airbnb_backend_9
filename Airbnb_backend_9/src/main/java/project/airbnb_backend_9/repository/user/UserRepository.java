@@ -13,5 +13,4 @@ public interface UserRepository extends JpaRepository<Users, Long> , UserReposit
     // select * from user where email = ?
     public Users findByEmail(String email); // jpa 쿼리 메서드
 
-
 }

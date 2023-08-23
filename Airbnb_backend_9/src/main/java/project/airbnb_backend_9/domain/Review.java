@@ -3,6 +3,7 @@ package project.airbnb_backend_9.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import project.airbnb_backend_9.review.dto.ReviewDTO;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Review {
     @JoinColumn(name = "accommodationId")
     private Accommodation accommodation;
 
+
     @Builder
     public Review(String comment, int rating, LocalDateTime createdAt, Users users, Accommodation accommodation) {
         this.comment = comment;
@@ -45,5 +47,13 @@ public class Review {
                 .comment(this.comment)
                 .rating(this.rating)
                 .build();
+    }
+
+    @Builder
+    public Review(Long rating, String comment, Users users, Accommodation accommodation){
+        this.rating=rating;
+        this.comment=comment;
+        this.users=users;
+        this.accommodation=accommodation;
     }
 }

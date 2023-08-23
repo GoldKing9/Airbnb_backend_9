@@ -1,3 +1,4 @@
+
 insert into Users (username, email, password, birth, user_description, role) values ('kcrowch0', 'kcrowch0@gmail.com', 'fhxz3e9hc4406', '2022-09-14', 'Donec ut mauris eget massa tempor convallis.', 'USER');
 insert into Users (username, email, password, birth, user_description, role) values ('rkezourec1', 'rkezourec1@gmail.com', 'rvgm66s93', '2023-07-17', 'Morbi quis tortor id nulla ultrices aliquet.', 'USER');
 insert into Users (username, email, password, birth, user_description, role) values ('etittershill2', 'etittershill2@gmail.com', 'loy0g89e', '2023-03-18', 'Phasellus in felis.', 'USER');
@@ -272,3 +273,4 @@ insert into review (comment, rating, created_at, user_id, accommodation_id) valu
 insert into review (comment, rating, created_at, user_id, accommodation_id) values ('Nullam molestie nibh in lectus.', 2, '2023-07-25', 10, 4);
 insert into review (comment, rating, created_at, user_id, accommodation_id) values ('Morbi non lectus.', 5, '2023-02-12', 8, 10);
 insert into review (comment, rating, created_at, user_id, accommodation_id) values ('Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 2, '2023-05-16', 7, 1);
+
