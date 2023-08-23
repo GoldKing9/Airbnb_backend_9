@@ -4,13 +4,16 @@ import lombok.Builder;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +45,5 @@ public class Accommodation {
         this.price = price;
         this.users = users;
     }
+
 }

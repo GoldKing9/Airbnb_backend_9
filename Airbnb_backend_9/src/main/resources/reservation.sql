@@ -1,0 +1,10 @@
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-22', '2023-08-07', '960.569', 3, true, 6, 8);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-09', '2023-08-01', '705.754', 2, true, 2, 2);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-25', '2023-08-17', '867.588', 2, true, 10, 8);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-10', '2023-08-06', '107.176', 4, false, 8, 1);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-10', '2023-08-21', '142.845', 2, true, 9, 10);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-08', '2023-08-10', '810.993', 3, false, 8, 7);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-09', '2023-08-30', '941.143', 4, false, 6, 3);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-25', '2023-08-07', '904.027', 2, true, 1, 5);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-05', '2023-08-16', '421.957', 3, false, 8, 2);
+insert into reservation (check_in, check_out, total_price, guest, is_deleted, user_id, accommodation_id) values ('2023-07-30', '2023-08-23', '237.850', 2, false, 2, 2);

@@ -13,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
+import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
 import project.airbnb_backend_9.user.dto.AccommodationDTO;
 import project.airbnb_backend_9.accommodation.dto.request.SearchRequest;
 import project.airbnb_backend_9.accommodation.dto.response.AccommodationDataDto;
@@ -42,7 +43,8 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<AccommodationDTO> getAccommodations(Long userId) {
+    public List<AccommodationInfoDTO> getAccommodations(Long userId) {
+
         JPQLQuery<String> url = queryFactory
                 .select(image.acmdImageUrl)
                 .from(image)
@@ -60,7 +62,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
 
 
         return queryFactory
-                .select(Projections.constructor(AccommodationDTO.class,
+                .select(Projections.constructor(AccommodationInfoDTO.class,
                         accommodation.accommodationId,
                         url,
                         avg,
@@ -71,7 +73,6 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
                 .limit(10)
                 .fetch();
     }
- 
   
   @Override
     public SingleAcmdResponse findAccommodation(Long accommodationId){
