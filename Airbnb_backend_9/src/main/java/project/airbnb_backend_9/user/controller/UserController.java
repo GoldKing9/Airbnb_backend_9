@@ -2,6 +2,7 @@ package project.airbnb_backend_9.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
 import project.airbnb_backend_9.user.dto.request.UpdateUserDTO;
+import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 import project.airbnb_backend_9.user.dto.response.ValidationErrorDTO;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
@@ -65,16 +67,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/api/user/{userId}")
-    public UserProfileDTO profile(@PathVariable Long userId){
-
-        return userService.getUserProfile(userId);
-    }
     @PutMapping("/api/auth/user")
     public void updateUser(
             @RequestBody UpdateUserDTO updateUserDTO,
             @AuthenticationPrincipal PrincipalDetails principalDetails){
         userService.updateProfile(updateUserDTO, principalDetails.getUsers());
+    }
+    @GetMapping("/api/user/{userId}")
+    public UserProfileDTO profile(@PathVariable Long userId){
+        return userService.getUserProfile(userId);
+    }
+
+    @GetMapping("/api/user/{userId}/review")
+    public HostProfileDTO getHostProfile(@PathVariable Long userId, Pageable pageable){
+        return userService.getHostProfile(userId, pageable);
     }
 
 }

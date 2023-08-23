@@ -6,8 +6,16 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import project.airbnb_backend_9.domain.QImage;
+import project.airbnb_backend_9.domain.Review;
+import project.airbnb_backend_9.user.dto.AccommodationAndReviewDTO;
 import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
 import project.airbnb_backend_9.user.dto.ReviewInfoDTO;
+import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 
 import java.util.List;
@@ -16,7 +24,7 @@ import static project.airbnb_backend_9.domain.QAccommodation.*;
 import static project.airbnb_backend_9.domain.QImage.image;
 import static project.airbnb_backend_9.domain.QReview.review;
 import static project.airbnb_backend_9.domain.QUsers.*;
-
+@Slf4j
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
@@ -91,8 +99,60 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     }
 
+    @Override
+    public Page<AccommodationAndReviewDTO> findHostProfile(Long userId, Pageable pageable) {
+//널포인트 에러 나는 이유 ? join을 할때 innerJoin, leftJoin 등 때문
+        Long size = queryFactory
+                .select(review.reviewId.count())
+                .from(review)
+                .where(review.accommodation.in(
+                        JPAExpressions
+                                .select(accommodation)
+                                .from(accommodation)
+                                .where(accommodation.users.userId.eq(userId)))
+                ).fetchOne();
 
+log.info("-----------AccommodationAndReviewDTO------------- 리뷰 개수 : {} ", size);
+        List<AccommodationAndReviewDTO> reviews = queryFactory
+                .select(Projections.constructor(AccommodationAndReviewDTO.class,
+                        accommodation.accommodationId,
+                        image.acmdImageUrl,
+                        accommodation.acmdName,
+                        review.users.userId,
+                        review.comment,
+                        review.users.username,
+                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt)
+                ))
+                .from(review)
+                .leftJoin(accommodation).on(review.accommodation.eq(accommodation))
+                .innerJoin(image).on(
+                        image.imageId.eq(
+                                JPAExpressions
+                                        .select(image.imageId.min())
+                                        .from(image)
+                                        .where(image.accommodation.eq(accommodation)))
+                )
+                .where(accommodation.users.userId.eq(userId))
+                .orderBy(review.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
+        size = size == null ? 0:size;
+        return new PageImpl<>(reviews,pageable, size);
+    }
 
+    @Override
+    public Long getReviewCnt(Long userId) {
+         return queryFactory
+                .select(review.count())
+                .from(review)
+                .where(review.accommodation.in(
+                        JPAExpressions
+                                .select(accommodation)
+                                .from(accommodation)
+                                .where(accommodation.users.userId.eq(userId)))
+                ).fetchOne();
 
+    }
 }
