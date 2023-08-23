@@ -1,11 +1,14 @@
 package project.airbnb_backend_9.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Image {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
