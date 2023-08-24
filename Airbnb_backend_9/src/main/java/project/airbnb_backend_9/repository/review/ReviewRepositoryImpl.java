@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import project.airbnb_backend_9.domain.QUsers;
 import project.airbnb_backend_9.domain.Review;
 import project.airbnb_backend_9.review.dto.response.ReviewsResponseDTO;
 import project.airbnb_backend_9.user.dto.ReviewInfoDTO;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import static project.airbnb_backend_9.domain.QAccommodation.accommodation;
 import static project.airbnb_backend_9.domain.QReview.review;
-import static project.airbnb_backend_9.domain.QUsers.users;
+
 
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {

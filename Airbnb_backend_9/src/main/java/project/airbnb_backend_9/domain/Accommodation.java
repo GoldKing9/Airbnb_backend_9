@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @ToString
@@ -30,6 +32,9 @@ public class Accommodation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private Users users;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accommodation")
+    private List<Image> images = new ArrayList<>();
   
 
     @Builder
@@ -57,6 +62,12 @@ public class Accommodation {
         this.acmdDescription = acmdDescription;
         this.price = price;
         this.users = users;
+    }
+
+    //질문: 숙소가 부모인 일대다 관계인데 여기에서 이미지를 관리하는 게 맞나?
+    public void addImage(Image image) {
+        this.images.add(image);
+        image.setAccommodation(this); //이미지 엔티티에 대해 숙소 엔티티를 설정(양방향 연관관계)
     }
 
 }
