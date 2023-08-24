@@ -1,9 +1,11 @@
 package project.airbnb_backend_9.reservation.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import project.airbnb_backend_9.reservation.dto.request.ReservationRequestDTO;
+import project.airbnb_backend_9.reservation.dto.response.ReservationGuestResponseDTO;
 import project.airbnb_backend_9.reservation.service.ReservationService;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
 
@@ -24,9 +26,10 @@ public class ReservationController {
     }
 
     @GetMapping("/user/reservations")
-    public void getAllReserved(
-            @AuthenticationPrincipal PrincipalDetails principalDetails
+    public ReservationGuestResponseDTO getAllReserved(
+            @AuthenticationPrincipal PrincipalDetails principalDetails,
+            Pageable pageable
     ){
-
+        return reservationService.getAllReservations(principalDetails.getUsers().getUserId(), pageable);
     }
 }

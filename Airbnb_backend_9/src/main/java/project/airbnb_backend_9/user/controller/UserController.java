@@ -35,7 +35,10 @@ public class UserController {
 
 
     @PostMapping("/api/user/signup")
-    public ResponseEntity<List<ValidationErrorDTO>> signup(@Validated @RequestBody SignUpDTO signUpDTO, BindingResult bindingResult){
+    public ResponseEntity<List<ValidationErrorDTO>> signup(
+            @Validated @RequestBody SignUpDTO signUpDTO,
+            BindingResult bindingResult
+    ){
         //회원가입시 검증
         if(bindingResult.hasErrors()){
         List<ValidationErrorDTO> list = new ArrayList<>();
@@ -55,7 +58,10 @@ public class UserController {
     }
 
     @PostMapping("/api/auth/user/logout")
-    public PrincipalDetails logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public PrincipalDetails logout(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @AuthenticationPrincipal PrincipalDetails principalDetails
+    ){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails p = (PrincipalDetails)authentication.getPrincipal();

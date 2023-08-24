@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.reservation.service;
+package project.airbnb_backend_9.service.reservation;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +12,7 @@ import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.repository.reservation.ReservationRepository;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.reservation.dto.request.ReservationRequestDTO;
+import project.airbnb_backend_9.reservation.service.ReservationService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.user.service;
+package project.airbnb_backend_9.service.user;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
 import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
+import project.airbnb_backend_9.user.service.UserService;
 
 import static org.assertj.core.api.Assertions.*;
 

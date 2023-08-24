@@ -40,7 +40,5 @@ public class Reservation {
         this.isDeleted = isDeleted;
         this.users = users;
         this.accommodation = accommodation;
-        log.info("뭐가 문제냐 check in : {}", checkIn);
-        log.info("뭐가 문제냐 check out : {}", checkOut);
     }
 }
