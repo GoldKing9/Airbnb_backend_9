@@ -13,11 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import project.airbnb_backend_9.user.dto.ValidationErrorDTO;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
 import project.airbnb_backend_9.user.dto.request.UpdateUserDTO;
 import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
-import project.airbnb_backend_9.user.dto.response.ValidationErrorDTO;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
 import project.airbnb_backend_9.user.service.UserService;
 

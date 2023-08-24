@@ -13,7 +13,7 @@ import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.review.dto.ReviewDTO;
 ;
 import project.airbnb_backend_9.review.dto.response.ReviewsResponseDTO;
-import project.airbnb_backend_9.review.dto.response.ValidationErrorDTO;
+import project.airbnb_backend_9.user.dto.ValidationErrorDTO;
 import project.airbnb_backend_9.review.service.ReviewService;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
 
