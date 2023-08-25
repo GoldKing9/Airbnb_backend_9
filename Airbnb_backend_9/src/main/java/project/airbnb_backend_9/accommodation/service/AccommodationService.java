@@ -17,6 +17,7 @@ import project.airbnb_backend_9.domain.Accommodation;
 import project.airbnb_backend_9.domain.Image;
 import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.exception.GlobalException;
+import project.airbnb_backend_9.image.dto.request.EditImageRequestDTO;
 import project.airbnb_backend_9.image.service.S3Service;
 import project.airbnb_backend_9.repository.image.ImageRepository;
 import project.airbnb_backend_9.repository.accommodation.AccommodationRepository;
@@ -123,6 +124,47 @@ public class AccommodationService {
         //DB에 엔티티 저장
         accommodationRepository.save(accommodation);
     }
+
+//    //숙박 수정2 (1. 컨트롤러랑 테스트에 List<MultipartFile> newImages 이 부분 수정 2. 프론트에서 delete에 false, true 할당하는 부분 생성 필요)
+//    @Transactional
+//    public void editAccommodation(Long accommodationId, AccommodationEditRequestDTO request, List<EditImageRequestDTO> editImages, Users users) {
+//        //숙소 정보 조회, 없으면 예외 처리
+//        Accommodation accommodation = accommodationRepository.findById(accommodationId)
+//                .orElseThrow(() -> new EntityNotFoundException("해당하는 숙소가 없습니다. ID : " + accommodationId));
+//
+//        //숙소 소유자와 현재 사용자가 일치하는지 확인 (편집 권한 검사)
+//        if (!accommodation.getUsers().getUserId().equals(users.getUserId())) {
+//            throw new GlobalException("이 숙소를 편집할 권한이 없습니다.");
+//        }
+//
+//        // 원할 때만 이미지 업데이트
+//        for (EditImageRequestDTO editImageRequest : editImages) {
+//            Long imageId = editImageRequest.getImageId();
+//            Image image = imageRepository.findById(imageId)
+//                    .orElseThrow(() -> new EntityNotFoundException("해당하는 이미지가 없습니다. ID : " + imageId));
+//
+//            if (editImageRequest.isDelete()) {
+//                // 이미지 삭제 요청이 있을 경우
+//                s3Service.deleteFile(image.getImageKey());
+//                imageRepository.delete(image);
+//            } else if (editImageRequest.getNewImageFile() != null) {
+//                // 이미지 업데이트 요청이 있을 경우
+//                s3Service.deleteFile(image.getImageKey());
+//
+//                MultipartFile newImageFile = editImageRequest.getNewImageFile();
+//                String newImageKey = s3Service.uploadFile(newImageFile);
+//                String newImageUrl = amazonS3.getUrl(bucketName, newImageKey).toExternalForm();
+//
+//                image.setImageKey(newImageKey);
+//                image.setAcmdImageUrl(newImageUrl);
+//                imageRepository.save(image);
+//            }
+//        }
+//
+//        //DB에 엔티티 저장
+//        accommodationRepository.save(accommodation);
+//    }
+
 
     //숙박 삭제
     @Transactional
