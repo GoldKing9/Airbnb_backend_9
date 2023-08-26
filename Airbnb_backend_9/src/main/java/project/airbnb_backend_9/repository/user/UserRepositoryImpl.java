@@ -65,7 +65,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .select(Projections.constructor(ReviewInfoDTO.class,
                         review.users.userId.as("userId"),
                         review.users.username,
-                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt),
+//                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt), Mysql에 의존적인 쿼리임
+                        review.createdAt,
                         review.comment
                 ))
                 .from(review)

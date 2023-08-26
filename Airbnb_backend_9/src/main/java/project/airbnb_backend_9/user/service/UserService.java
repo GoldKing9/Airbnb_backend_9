@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Users;
+import project.airbnb_backend_9.exception.GlobalException;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.AccommodationAndReviewDTO;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
@@ -31,7 +32,7 @@ public class UserService {
         //이메일 중복 검증
         if(signUpEmail != null){
             log.info("이미 존재하는 이메일 입니다");
-            throw new IllegalArgumentException();
+            throw new GlobalException("이미 존재하는 이메일 입니다");
         }
 
 
@@ -51,7 +52,7 @@ public class UserService {
     public void updateProfile(UpdateUserDTO updateUserDTO, Users users) {
 //test1 -> 꺼내와서 변경하는 방법을 사용해라!
         log.info("findBy로 조회 후 자기소개 등록");
-        Users user = userRepository.findById(users.getUserId()).orElseThrow();
+        Users user = userRepository.findById(users.getUserId()).orElseThrow(() -> new GlobalException("사용자 조회 실패"));
         user.updateDescription(updateUserDTO.getUserDescription());
 //test2 -> 활용 1편 85쪽 참고
 //        log.info("자기소개 등록 후 저장");

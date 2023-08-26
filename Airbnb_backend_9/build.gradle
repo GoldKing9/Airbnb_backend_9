@@ -45,8 +45,12 @@ dependencies {
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	// 파라미터값 알고 싶을 때
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
-	// https://mvnrepository.com/artifact/com.auth0/java-jwt jwt토큰 생성해서 인코딩하는 과정처리
+//	// https://mvnrepository.com/artifact/com.auth0/java-jwt jwt토큰 생성해서 인코딩하는 과정처리
 	implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
+	// jwt토큰 사용을 위한 라이브러리
+//	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+//	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+//	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 }
 
 tasks.named('test') {

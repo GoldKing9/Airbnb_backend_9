@@ -27,7 +27,7 @@ public class ReservationService {
     private final AccommodationRepository accommodationRepository;
     @Transactional
     public void reserveAccommodation(Long accommodationId, ReservationRequestDTO reservationRequestDTO, Users users) {
-        Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow();
+        Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(()-> new GlobalException("숙소 예약 중 숙소 조회 실패"));
         log.info("숙소 가져오기 : {}",accommodation.toString());
         Long guest = accommodation.getGuest();
 

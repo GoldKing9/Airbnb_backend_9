@@ -1,7 +1,5 @@
 package project.airbnb_backend_9.exception;
 
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

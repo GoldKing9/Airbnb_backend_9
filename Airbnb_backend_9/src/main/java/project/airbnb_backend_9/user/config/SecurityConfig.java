@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import project.airbnb_backend_9.repository.user.UserRepository;
+import project.airbnb_backend_9.user.jwt.CustomAuthenticationEntryPoint;
 import project.airbnb_backend_9.user.jwt.JwtAuthenticationFilter;
 import project.airbnb_backend_9.user.jwt.JwtAuthorizationFilter;
-import project.airbnb_backend_9.user.jwt.JwtExceptionFilter;
 
 @Configuration
 @EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록
@@ -21,6 +21,7 @@ public class SecurityConfig {
 
     private final CorsConfig corsConfig;
     private final UserRepository userRepository;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -31,6 +32,8 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .apply(new MyCustomDsl()) // 커스텀 필터 등록
+                .and()
+                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests( //다음 요청에 대한 사용 권한 체크
                         authorize -> authorize
@@ -50,7 +53,7 @@ public class SecurityConfig {
             http
                     .addFilter(corsConfig.corsFilter())
                     .addFilter(new JwtAuthenticationFilter(authenticationManager))
-                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthorizationFilter.class)
+//                    .addFilterBefore(new JwtExceptionFilter(), JwtAuthorizationFilter.class)
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }

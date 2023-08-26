@@ -85,8 +85,10 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         users.userId,
                         users.username,
                         accommodation.mainAddress.as("city"),
-                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y-%m-%d')", reservation.checkIn),
-                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y-%m-%d')", reservation.checkOut),
+//                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y-%m-%d')", reservation.checkIn),
+                        reservation.checkIn,
+//                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y-%m-%d')", reservation.checkOut),
+                        reservation.checkOut,
                         status,
                         list(Projections.constructor(ImageDTO.class,
                                 image.acmdImageUrl))

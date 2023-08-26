@@ -23,13 +23,13 @@ public class ReservationDTO {
     private String status;
     private List<ImageDTO> images = new ArrayList<>();
 
-    public ReservationDTO(Long accommodationId, Long userId, String username, String city, String checkIn, String checkout, String status, List<ImageDTO> images) {
+    public ReservationDTO(Long accommodationId, Long userId, String username, String city, LocalDateTime checkIn, LocalDateTime checkout, String status, List<ImageDTO> images) {
         this.accommodationId = accommodationId;
         this.userId = userId;
         this.username = username;
         this.city = city;
-        this.checkInDate = checkIn;
-        this.checkOutDate = checkout;
+        this.checkInDate = String.format("%d-%02d-%02d",checkIn.getYear(), checkIn.getMonthValue(),checkIn.getDayOfMonth());
+        this.checkOutDate = String.format("%d-%02d-%02d",checkout.getYear(), checkout.getMonthValue(),checkout.getDayOfMonth());
         this.status = status;
         this.images = images;
     }
