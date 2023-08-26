@@ -122,7 +122,8 @@ log.info("-----------AccommodationAndReviewDTO------------- 리뷰 개수 : {} "
                         review.users.userId,
                         review.comment,
                         review.users.username,
-                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt)
+//                        Expressions.stringTemplate("DATE_FORMAT({0},'%Y년 %c월')", review.createdAt)
+                        review.createdAt
                 ))
                 .from(review)
                 .leftJoin(accommodation).on(review.accommodation.eq(accommodation))
