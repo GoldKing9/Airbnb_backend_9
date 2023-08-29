@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import project.airbnb_backend_9.domain.Role;
 import project.airbnb_backend_9.domain.Users;
+import project.airbnb_backend_9.exception.GlobalException;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.AccommodationAndReviewDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
@@ -57,7 +58,7 @@ class UserRepositoryTest {
     @DisplayName("email로 회원정보 가져오기")
     public void  getUserInfo() throws Exception{
 
-        Users user = userRepository.findByEmail("bbroadbere0@gmail.com");
+        Users user = userRepository.findByEmail("bbroadbere0@gmail.com").get();
         System.out.println(user.toString());
         assertThat(user.getEmail()).isEqualTo("bbroadbere0@gmail.com");
     }

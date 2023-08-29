@@ -1,6 +1,7 @@
 package project.airbnb_backend_9.reservation.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,7 @@ import project.airbnb_backend_9.reservation.dto.request.ReservationRequestDTO;
 import project.airbnb_backend_9.reservation.dto.response.ReservationGuestResponseDTO;
 import project.airbnb_backend_9.reservation.service.ReservationService;
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")

@@ -1,6 +1,7 @@
 package project.airbnb_backend_9.user.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -13,16 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Component
+@Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         String loginException = authException.getClass().getSimpleName();
+        log.info("EntryPoint : {}", loginException);
+        response.sendRedirect("/login");
         if(loginException.equals(UsernameNotFoundException.class.getSimpleName())){
             setResponse(response,"존재하지 않는 유저입니다");
         }else if(loginException.equals(BadCredentialsException.class.getSimpleName())){
             setResponse(response,"비밀번호가 틀렸습니다");
-
         }
     }
 

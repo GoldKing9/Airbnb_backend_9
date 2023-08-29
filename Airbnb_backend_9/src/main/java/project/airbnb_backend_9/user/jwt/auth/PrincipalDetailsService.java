@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import project.airbnb_backend_9.domain.Users;
 import project.airbnb_backend_9.repository.user.UserRepository;
 
-//시큐리티 설정에서 .loginProcessingUrl("/login")을 걸어놨으므로
-// /login 요청이 오면, 자동으로 UserDetailsService타입으로 IoC되어있는 loadUserByUsername 함수가 실행됨 -> 규칙임
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,15 +23,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     // 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { //request로 오는 인자값이 파라미터명과 일치해야함
-        log.info("email : {}", email );
-        Users userEntity = userRepository.findByEmail(email);
-        log.info("loadUserByUsername : {}, {}, {}", userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword());
+        log.info(" loadUserByUsername 실행 ");
+        Users userEntity = userRepository.findByEmail(email).orElseThrow(
+                () ->  new UsernameNotFoundException("아이디 없음, 사용자 아님") // 해줄 필요가 있을까? 여기서 에러 발생하면 unsuccessfulAuthentication이거 실행될텐데? 근데 에러가 콘솔에 터지냐 안터지냐 차이발생, 글고 메시지가 달라짐, 이거 적용하면 아이디 비벌 불일치 찍히고 안하면 로그인 실패찍힘
+        );
 
-        //todo null일경우 처리해줘야함
-        if(userEntity == null){
-            log.info("아이디가 없음, 사용자 아님");
-        }
-        log.info("userEntity 존재 : {}", userEntity);
         return new PrincipalDetails(userEntity); //PrincipalDetails이 리턴될 때 Authentication에 쏙~ 들어감, 그러면서 이 Authentication을 시큐리티 세션에 넣어줌
     }
 }

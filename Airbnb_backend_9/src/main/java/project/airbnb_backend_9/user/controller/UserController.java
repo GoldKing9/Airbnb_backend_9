@@ -64,13 +64,13 @@ public class UserController {
     ){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PrincipalDetails p = (PrincipalDetails)authentication.getPrincipal();
 
         if(authentication != null){
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
         return principalDetails;
     }
+
 
 
     @PutMapping("/api/auth/user")

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Users;
+import project.airbnb_backend_9.exception.GlobalException;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
 import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
@@ -42,7 +43,7 @@ class UserServiceTest {
 
         userService.register(signup);
 
-        Users users = userRepository.findByEmail("aaa@gmail.com");
+        Users users = userRepository.findByEmail("aaa@gmail.com").get();
         assertThat(users.getEmail()).isEqualTo(signup.getEmail());
 
 

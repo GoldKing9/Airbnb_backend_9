@@ -28,13 +28,9 @@ public class UserService {
     public void register(SignUpDTO signUpDTO) {
 
         String email = signUpDTO.getEmail();
-        Users signUpEmail = userRepository.findByEmail(email);
-        //이메일 중복 검증
-        if(signUpEmail != null){
-            log.info("이미 존재하는 이메일 입니다");
-            throw new GlobalException("이미 존재하는 이메일 입니다");
-        }
-
+        userRepository.findByEmail(email).ifPresent(e-> {
+            throw new GlobalException("이미 존재하는 회원입니다");
+                });
 
         String password = bCryptPasswordEncoder.encode(signUpDTO.getPassword());
         Users UserEntity = signUpDTO.toEntity(password);
