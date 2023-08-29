@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Accommodation;
 import project.airbnb_backend_9.domain.Review;
 import project.airbnb_backend_9.domain.Users;
+import project.airbnb_backend_9.exception.GlobalException;
 import project.airbnb_backend_9.repository.accommodation.AccommodationRepository;
 import project.airbnb_backend_9.repository.review.ReviewRepository;
 import project.airbnb_backend_9.repository.user.UserRepository;
@@ -26,10 +27,10 @@ public class ReviewService {
     private final UserRepository userRepository;
     @Transactional
     public void createReview(Long accommodationId, ReviewDTO reviewDTO, Long userId) {
-        Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow();
+        Accommodation accommodation = accommodationRepository.findById(accommodationId).orElseThrow(()->new GlobalException("리뷰를 작성할 숙소 조회 실패"));
         log.info("숙박 정보 : {}", accommodation.toString());
 
-        Users users = userRepository.findById(userId).orElseThrow();
+        Users users = userRepository.findById(userId).orElseThrow(()->new GlobalException("리뷰 작성 중 사용자 조회 실패"));
         log.info("리뷰 작성자 정보 : {}", users.toString());
 
         Review reviewEntity = reviewDTO.toEntity(users, accommodation);
@@ -39,7 +40,7 @@ public class ReviewService {
     @Transactional
     public ReviewDTO updateReview(Long reviewId, ReviewDTO reviewDTO, Long userId) {
 
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new GlobalException("리뷰 수정 중 리뷰 조회 실패"));
 
         String comment = reviewDTO.getComment();
 
@@ -53,7 +54,7 @@ public class ReviewService {
     }
     @Transactional
     public HttpStatus deleteReview(Long reviewId, Long userId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new GlobalException("리뷰 삭제 중 리뷰 조회 실패"));
         if(review.getUsers().getUserId().equals(userId)){
             reviewRepository.deleteById(reviewId);
             log.info("리뷰 삭제 성공");

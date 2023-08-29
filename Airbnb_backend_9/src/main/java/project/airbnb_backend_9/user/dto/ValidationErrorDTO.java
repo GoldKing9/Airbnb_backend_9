@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.review.dto.response;
+package project.airbnb_backend_9.user.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

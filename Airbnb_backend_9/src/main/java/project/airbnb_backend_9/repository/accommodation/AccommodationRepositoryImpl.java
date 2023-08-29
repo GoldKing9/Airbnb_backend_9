@@ -5,16 +5,12 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.core.group.GroupBy;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
 import project.airbnb_backend_9.user.dto.AccommodationInfoDTO;
-import project.airbnb_backend_9.user.dto.AccommodationDTO;
 import project.airbnb_backend_9.accommodation.dto.request.SearchRequest;
 import project.airbnb_backend_9.accommodation.dto.response.AccommodationDataDto;
 import project.airbnb_backend_9.accommodation.dto.response.ImageDto;
@@ -22,9 +18,7 @@ import project.airbnb_backend_9.accommodation.dto.response.SingleAcmdResponse;
 import static project.airbnb_backend_9.domain.QAccommodation.accommodation;
 import static project.airbnb_backend_9.domain.QImage.image;
 import static project.airbnb_backend_9.domain.QReview.review;
-import static project.airbnb_backend_9.domain.QImage.*;
 import static project.airbnb_backend_9.domain.QReservation.reservation;
-import static project.airbnb_backend_9.domain.QReview.*;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
