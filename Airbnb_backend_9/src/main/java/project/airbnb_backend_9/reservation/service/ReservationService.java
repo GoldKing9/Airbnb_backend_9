@@ -1,22 +1,36 @@
 package project.airbnb_backend_9.reservation.service;
 
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
+
 import project.airbnb_backend_9.domain.Accommodation;
 import project.airbnb_backend_9.domain.Reservation;
 import project.airbnb_backend_9.domain.Users;
+
 import project.airbnb_backend_9.exception.GlobalException;
+
 import project.airbnb_backend_9.repository.accommodation.AccommodationRepository;
 import project.airbnb_backend_9.repository.reservation.ReservationRepository;
 import project.airbnb_backend_9.repository.user.UserRepository;
+
+
 import project.airbnb_backend_9.reservation.dto.ReservationDTO;
 import project.airbnb_backend_9.reservation.dto.request.ReservationRequestDTO;
 import project.airbnb_backend_9.reservation.dto.response.ReservationGuestResponseDTO;
+import project.airbnb_backend_9.reservation.dto.response.HostReservationResponseDTO;
+import project.airbnb_backend_9.reservation.dto.response.TotalHostReservationsResponseDTO;
+
 import project.airbnb_backend_9.review.dto.response.ReviewsResponseDTO;
+
+import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
+
 
 @Slf4j
 @Service
@@ -57,6 +71,16 @@ public class ReservationService {
                 .results(reservations.getContent())
                 .currentPage(pageOffset/pageSize)
                 .totalPages(reservations.getTotalPages())
+                .build();
+
+
+    @Transactional(readOnly = true)
+    public TotalHostReservationsResponseDTO getTotalHostReservations(Pageable pageable, PrincipalDetails principalDetails) {
+        PageImpl<HostReservationResponseDTO> hostReservation = reservationRepository.findHostReservation(pageable, principalDetails);
+        return TotalHostReservationsResponseDTO.builder()
+                .hostReservations(hostReservation.getContent())
+                .totalPage(hostReservation.getTotalPages())
+                .currentPage(hostReservation.getNumber())
                 .build();
 
     }
