@@ -16,5 +16,4 @@ public class ReservationDateDuplicateException extends RuntimeException{
         super(cause);
     }
 
-
 }

@@ -12,10 +12,11 @@ import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
 
 import java.util.List;
 
-import static project.airbnb_backend_9.domain.QAccommodation.*;
+import static project.airbnb_backend_9.domain.QAccommodation.accommodation;
 import static project.airbnb_backend_9.domain.QImage.image;
 import static project.airbnb_backend_9.domain.QReview.review;
-import static project.airbnb_backend_9.domain.QUsers.*;
+import static project.airbnb_backend_9.domain.QUsers.users;
+
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {

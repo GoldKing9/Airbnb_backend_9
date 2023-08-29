@@ -5,13 +5,12 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class AccommodationRequestDTO {
-    private String mainAddress;
-    private String detailAddress;
+public class AccommodationEditRequestDTO {
     private Long guest;
     private Long bedroom;
     private Long bed;
     private Long bathroom;
+//    private List<String> deleteImageKey;
     private String acmdName;
     private String acmdDescription;
     private Long price;
