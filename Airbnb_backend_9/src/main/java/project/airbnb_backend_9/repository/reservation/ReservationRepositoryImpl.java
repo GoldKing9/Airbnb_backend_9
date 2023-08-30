@@ -71,13 +71,14 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         reservation.checkOut.after(LocalDateTime.now())
                                 .and(reservation.isDeleted.eq(false))
                 )
-                .then("예약중")
+                .then("예약 중")
                 .when(
                         reservation.checkOut.before(LocalDateTime.now())
                                 .and(reservation.isDeleted.eq(false))
                 )
-                .then("이용 완료")
+                .then("이용완료")
                 .otherwise("예약 취소").as("status");
+
 
         /**
          * 그룹화를 하게 되면 groupBy 이후에 페이징 처리가 불가능함 따라서 두 단계의 쿼리로 나누어 처리해준다
@@ -186,7 +187,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 users.username,
                 users.userDescription,
                 new CaseBuilder()
-                        .when(reservation.checkOut.after(LocalDateTime.now()).and(reservation.isDeleted.eq(false))).then("예약중 ")
+                        .when(reservation.checkOut.after(LocalDateTime.now()).and(reservation.isDeleted.eq(false))).then("예약 중")
                         .when(reservation.checkOut.before(LocalDateTime.now()).and(reservation.isDeleted.eq(false))).then("이용완료")
                         .otherwise("예약 취소"),
                 reservation.totalPrice))

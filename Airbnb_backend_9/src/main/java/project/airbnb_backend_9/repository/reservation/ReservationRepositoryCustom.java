@@ -9,7 +9,7 @@ import project.airbnb_backend_9.reservation.dto.response.HostReservationResponse
 import project.airbnb_backend_9.user.jwt.auth.PrincipalDetails;
 
 public interface ReservationRepositoryCustom {
-    public Page<ReservationDTO> findReservations(Long userId, Pageable pageable);
+    Page<ReservationDTO> findReservations(Long userId, Pageable pageable);
 
     PageImpl<HostReservationResponseDTO> findHostReservation(Pageable pageable, PrincipalDetails principalDetails);
 
