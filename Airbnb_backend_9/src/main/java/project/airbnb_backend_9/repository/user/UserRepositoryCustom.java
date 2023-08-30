@@ -10,5 +10,5 @@ public interface UserRepositoryCustom {
     UserProfileDTO findUserProfile(Long userId);
 
     Page<AccommodationAndReviewDTO> findHostProfile(Long userId, Pageable pageable);
-    Long getReviewCnt(Long userId); // 사용안함 테스트용
+
 }

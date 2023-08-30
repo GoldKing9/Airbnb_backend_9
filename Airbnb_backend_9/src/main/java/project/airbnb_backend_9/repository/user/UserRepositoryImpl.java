@@ -28,7 +28,6 @@ import static project.airbnb_backend_9.domain.QUsers.*;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-
     @Override
     public UserProfileDTO findUserProfile(Long userId) {
         UserProfileDTO response = queryFactory
@@ -142,19 +141,5 @@ log.info("-----------AccommodationAndReviewDTO------------- 리뷰 개수 : {} "
 
         size = size == null ? 0:size;
         return new PageImpl<>(reviews,pageable, size);
-    }
-
-    @Override
-    public Long getReviewCnt(Long userId) {
-         return queryFactory
-                .select(review.count())
-                .from(review)
-                .where(review.accommodation.in(
-                        JPAExpressions
-                                .select(accommodation)
-                                .from(accommodation)
-                                .where(accommodation.users.userId.eq(userId)))
-                ).fetchOne();
-
     }
 }

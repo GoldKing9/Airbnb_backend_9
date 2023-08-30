@@ -83,14 +83,6 @@ class UserRepositoryTest {
         System.out.println("총 개수 : "+hostProfile.getContent().size());
     }
 
-    @Test
-    @DisplayName("호스트의 숙소에 달린 리뷰 개수")
-    public void getReviewCnt() throws Exception{
-        long reviewCnt = userRepository.getReviewCnt(10L);
-        System.out.println("결과 : "+reviewCnt);
-//        assertThat(reviewCnt).isEqualTo(9);
-
-    }
 
 
 

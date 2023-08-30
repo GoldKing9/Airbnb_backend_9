@@ -77,10 +77,10 @@ public class ReservationService {
 
         return ReservationGuestResponseDTO.builder()
                 .results(reservations.getContent())
-                .currentPage(pageOffset/pageSize)
+                .currentPage(pageOffset / pageSize)
                 .totalPages(reservations.getTotalPages())
                 .build();
-
+    }
 
     @Transactional(readOnly = true)
     public TotalHostReservationsResponseDTO getTotalHostReservations(Pageable pageable, PrincipalDetails principalDetails) {

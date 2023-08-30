@@ -48,15 +48,14 @@ public class ReservationController {
     public ReservationGuestResponseDTO getAllReserved(
             @AuthenticationPrincipal PrincipalDetails principalDetails,
             Pageable pageable
-    ){
+    ) {
         return reservationService.getAllReservations(principalDetails.getUsers().getUserId(), pageable);
-
+    }
     @GetMapping("/host")
     public TotalHostReservationsResponseDTO getTotalHostReservations(Pageable pageable, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return reservationService.getTotalHostReservations(pageable, principalDetails);
 
     }
-    private final ReservationService reservationService;
     @GetMapping("/user/reservations/{reservationId}")
     public SingleResResponse singleResResponse(@PathVariable Long reservationId,
                                         @AuthenticationPrincipal PrincipalDetails principalDetails){

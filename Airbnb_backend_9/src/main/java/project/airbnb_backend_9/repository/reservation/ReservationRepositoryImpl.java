@@ -1,6 +1,5 @@
 package project.airbnb_backend_9.repository.reservation;
 
-<<<<<<< HEAD
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -107,7 +106,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 .join(users).on(reservation.users.eq(users))
                 .where(
                         users.userId.eq(userId)
-                        .and(accommodation.accommodationId.in(pagedAccommodationIds))
+                                .and(accommodation.accommodationId.in(pagedAccommodationIds))
                 )
                 .orderBy(reservation.reservationId.desc())
                 .transform(groupBy(accommodation.accommodationId).list(Projections.constructor(
@@ -127,7 +126,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
         return new PageImpl<>(reservations, pageable, reservations.size());
 
-
+    }
     @Override
     public PageImpl<HostReservationResponseDTO> findHostReservation(Pageable pageable, PrincipalDetails principalDetails) {
         /**
@@ -176,36 +175,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         return new PageImpl<HostReservationResponseDTO>(hostReservationResponseDto, pageable, total);
 
     }
-        @Override
-        public SingleResResponse findSingleReservation(Long reservationId){
-            SingleResResponse singleResResponse=queryFactory.select(Projections.constructor(SingleResResponse.class,
-                            accommodation.accommodationId,
-                            reservation.checkIn,
-                            reservation.checkOut,
-                            users.userId,
-                            users.username,
-                            users.userDescription,
-                            new CaseBuilder()
-                                    .when(reservation.checkOut.after(LocalDateTime.now()).and(reservation.isDeleted.eq(false))).then("예약중 ")
-                                    .when(reservation.checkOut.before(LocalDateTime.now()).and(reservation.isDeleted.eq(false))).then("이용완료")
-                                    .otherwise("예약 취소"),
-                            reservation.totalPrice))
-                    .from(reservation)
-                    .join(users).on(users.userId.eq(reservation.users.userId))
-                    .join(accommodation).on(accommodation.accommodationId.eq(reservation.accommodation.accommodationId))
-                    .where(reservation.reservationId.eq(reservationId))
-                    .fetchOne();
-            Long accommodationId = singleResResponse.getAccommodationId();
-            List<ImageDto> images = queryFactory.select(Projections.constructor(ImageDto.class,
-                            image.acmdImageUrl
-                    ))
-                    .from(accommodation)
-                    .leftJoin(image).on(accommodation.eq(image.accommodation))
-                    .where(accommodation.accommodationId.eq(accommodationId))
-                    .fetch();
-            singleResResponse.setImages(images);
-            return singleResResponse;
-        }
 
     @Override
     public SingleResResponse findSingleReservation(Long reservationId){
