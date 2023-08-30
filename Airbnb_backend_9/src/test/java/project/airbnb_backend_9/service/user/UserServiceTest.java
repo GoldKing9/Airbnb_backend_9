@@ -1,15 +1,20 @@
-package project.airbnb_backend_9.user.service;
+package project.airbnb_backend_9.service.user;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import project.airbnb_backend_9.domain.Users;
+import project.airbnb_backend_9.exception.GlobalException;
 import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.dto.request.SignUpDTO;
+import project.airbnb_backend_9.user.dto.response.HostProfileDTO;
 import project.airbnb_backend_9.user.dto.response.UserProfileDTO;
+import project.airbnb_backend_9.user.service.UserService;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -38,7 +43,7 @@ class UserServiceTest {
 
         userService.register(signup);
 
-        Users users = userRepository.findByEmail("aaa@gmail.com");
+        Users users = userRepository.findByEmail("aaa@gmail.com").get();
         assertThat(users.getEmail()).isEqualTo(signup.getEmail());
 
 
@@ -68,5 +73,13 @@ class UserServiceTest {
         System.out.println("결과 : "+userProfile.toString());
         //then
 
+    }
+
+    @Test
+    @DisplayName("호스트 프로필 조회(리뷰정보와 숙소정보)")
+    public void  getHostProfile() throws Exception{
+        Pageable pageRequest = PageRequest.of(0,4);
+        HostProfileDTO hostProfile = userService.getHostProfile(10L, pageRequest);
+        System.out.println("결과 : "+hostProfile.toString());
     }
 }

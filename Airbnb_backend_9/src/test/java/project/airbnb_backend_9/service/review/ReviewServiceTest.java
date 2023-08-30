@@ -1,4 +1,4 @@
-package project.airbnb_backend_9.review.service;
+package project.airbnb_backend_9.service.review;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import project.airbnb_backend_9.review.dto.ReviewDTO;
 import project.airbnb_backend_9.review.dto.response.ReviewsResponseDTO;
+import project.airbnb_backend_9.review.service.ReviewService;
 
 @SpringBootTest
 class ReviewServiceTest {

@@ -15,6 +15,8 @@ import project.airbnb_backend_9.domain.Users;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
 //시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행시킨다
 //로그인 진행이 완료가 되면 시큐리티가 가진 session을 만들어 준다. (Security ContextHolder)라는 키값을 저장
 // 이 시큐리티가 가진 세션에 들어갈 수 있는 정보는 오브젝트가 정해져 있다(오브젝트 타입 => Authentication타입 객체)
@@ -33,7 +35,9 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        log.info("getAuthorities");
+//        return List.of(new SimpleGrantedAuthority("ROLE_"+ users.getRole()));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
