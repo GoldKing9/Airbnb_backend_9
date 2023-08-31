@@ -138,7 +138,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
          * - isDeleted == true, 취소
          */
 
-
         List<HostReservationResponseDTO> hostReservationResponseDto = queryFactory
                 .select(Projections.constructor(HostReservationResponseDTO.class,
                         reservation.reservationId,
