@@ -64,7 +64,7 @@ public class AccommodationService {
 
         //이미지 등록
         for (MultipartFile imageFile : images) {
-            //이미지 파일을 Amazon S3에 업로드하면서 이미지의 고유한 키를 생성 -> 버킷에서 이미지 식별
+            //이미지 파일을 Amazon S3에 업로드하면서 이미지의 키를 생성 -> 버킷에서 이미지 식별
             String imageKey = s3Service.uploadFile(imageFile);
             //업로드 된 이미지의 공용 URL을 생성(업로드된 이미지에 접근할 수 있는 주소)
             String acmdImageUrl = amazonS3.getUrl(bucketName, imageKey).toExternalForm(); //toExternalForm(): 생성한 URL 객체를 문자열로 변환. 생성된 이미지 파일의 접근 가능한 주소를 문자열 형태로 얻을 수 있음

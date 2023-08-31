@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +22,13 @@ public class S3Service {
 
     public String uploadFile(MultipartFile file) {
         //업로드 할 파일의 원본 파일 이름을 가져옴
-        String fileName = file.getOriginalFilename();
+        String fileName = changeFileNameToUuid(file.getOriginalFilename());
 
         try { //Amazon S3에 파일을 업로드하는 메서드 puObject()
             //업로드 할 파일의 정보를 나타내는 PutObjectRequest 객체를 생성
             //업로드 할 버킷 이름, 파일 이름, 파일 내용 및 메타데이터 포함
             amazonS3.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), new ObjectMetadata())
-                    .withCannedAcl(CannedAccessControlList.PublicRead)); // 업로드된 파일이 공개 읽기 권한이 있는 객체로 설정되도록 함
+                    .withCannedAcl(CannedAccessControlList.PublicRead)); // 외부에 공개할 이미지이므로, 업로드된 파일이 공개 읽기 권한이 있는 객체로 설정되도록 함
 
             return fileName;
         } catch (IOException e) {
@@ -51,5 +52,12 @@ public class S3Service {
             throw new RuntimeException("Failed to delete file from S3", e);
         }
     }
+
+    /*UUID로 파일명 변환*/
+    public String changeFileNameToUuid(String fileName) {
+        String ext = fileName.substring(fileName.indexOf(".") + 1);
+        return UUID.randomUUID().toString() + "." + ext;
+    }
+
 }
 
