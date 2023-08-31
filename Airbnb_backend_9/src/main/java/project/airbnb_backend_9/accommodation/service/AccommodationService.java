@@ -69,7 +69,7 @@ public class AccommodationService {
             //생성된 이미지의 URL과 키를 사용하여 Image 엔티티 객체를 생성
             Image image = new Image(imageKey, acmdImageUrl);
             //Image 엔티티 객체를 accommodation 엔티티에 추가 -> 숙소 정보에 해당 이미지 연결
-            accommodation.addImage(image);
+            accommodation.addImage(image); //cascade가 없으면 이미지 저장 안 됨(ImageRepository에 저장이 안 됐기 때문)
         }
 
         accommodationRepository.save(accommodation);
@@ -99,6 +99,14 @@ public class AccommodationService {
                 users
         );
 
+
+        //S3 버킷에서 기존 이미지 파일 삭제
+        for (Image oldImage : accommodation.getImages()) {
+            s3Service.deleteFile(oldImage.getImageKey());
+        }
+        //데이터베이스에서 기존 이미지 파일 삭제
+        imageRepository.deleteAllInBatch(accommodation.getImages());
+
         //이미지 업데이트
         //받아온 새 이미지들을 우선 리스트에 저장
         List<Image> updateImage = new ArrayList<>();
@@ -110,19 +118,14 @@ public class AccommodationService {
                 updateImage.add(newImage);
             }
         }
-        //S3 버킷에서 기존 이미지 파일 삭제
-        for (Image oldImage : accommodation.getImages()) {
-            s3Service.deleteFile(oldImage.getImageKey());
-        }
-        //데이터베이스에서 기존 이미지 파일 삭제
-        imageRepository.deleteAllInBatch(accommodation.getImages());
+
         //새로운 Image 엔티티 객체를 accommodation 엔티티에 추가
         for (Image newImage : updateImage) {
             accommodation.addImage(newImage);
         }
 
-        //DB에 엔티티 저장
-        accommodationRepository.save(accommodation);
+        //DB에 엔티티 저장 (이 부분 없어도 됨)
+//        accommodationRepository.save(accommodation);
     }
 
 //    //숙박 수정2 (1. 컨트롤러랑 테스트에 List<MultipartFile> newImages 이 부분 수정 2. 프론트에서 delete에 false, true 할당하는 부분 생성 필요)
