@@ -42,9 +42,9 @@ public class AccommodationController {
     @PutMapping("/api/auth/accommodation/{accommodationId}")
     public void editAccommodation(@PathVariable Long accommodationId,
                                   @RequestPart AccommodationEditRequestDTO request,
-                                  @RequestPart List<MultipartFile> newImages,
+                                  @RequestPart List<MultipartFile> images,
                                   @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        accommodationService.editAccommodation(accommodationId, request, newImages, principalDetails.getUsers());
+        accommodationService.editAccommodation(accommodationId, request, images, principalDetails.getUsers());
     }
 
     // 숙박 삭제

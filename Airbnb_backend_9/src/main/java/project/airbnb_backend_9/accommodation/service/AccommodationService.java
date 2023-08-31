@@ -3,6 +3,7 @@ package project.airbnb_backend_9.accommodation.service;
 import com.amazonaws.services.s3.AmazonS3;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 // @Transactional(readOnly = true) 이렇게 전체 서비스 위에 붙여줘도 되나? 메소드 단위로 붙여야 하지 않나?
@@ -81,6 +83,7 @@ public class AccommodationService {
         //숙소 정보 조회, 없으면 예외 처리
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 숙소가 없습니다. ID : " + accommodationId));
+        //findById를 통해 영속성 컨텍스트로 accommodation을 데려옴(이후 addImage 하면서 변경 감지, 영속성 전이 일어남)
 
         //숙소 소유자와 현재 사용자가 일치하는지 확인 (편집 권한 검사)
         if (!accommodation.getUsers().getUserId().equals(users.getUserId())) {
@@ -99,7 +102,6 @@ public class AccommodationService {
                 users
         );
 
-
         //S3 버킷에서 기존 이미지 파일 삭제
         for (Image oldImage : accommodation.getImages()) {
             s3Service.deleteFile(oldImage.getImageKey());
@@ -108,20 +110,14 @@ public class AccommodationService {
         imageRepository.deleteAllInBatch(accommodation.getImages());
 
         //이미지 업데이트
-        //받아온 새 이미지들을 우선 리스트에 저장
-        List<Image> updateImage = new ArrayList<>();
-        if (newImages != null && !newImages.isEmpty()) {
+
+        if (newImages != null /*&& !newImages.isEmpty() 리스트는 사이즈가 0이면 이터레이터에서 값이 없으니 무시됨*/) {
             for (MultipartFile newImageFile : newImages) {
                 String newImageKey = s3Service.uploadFile(newImageFile);
                 String newImageUrl = amazonS3.getUrl(bucketName, newImageKey).toExternalForm();
                 Image newImage = new Image(newImageKey, newImageUrl);
-                updateImage.add(newImage);
+                accommodation.addImage(newImage);
             }
-        }
-
-        //새로운 Image 엔티티 객체를 accommodation 엔티티에 추가
-        for (Image newImage : updateImage) {
-            accommodation.addImage(newImage);
         }
 
         //DB에 엔티티 저장 (이 부분 없어도 됨)
