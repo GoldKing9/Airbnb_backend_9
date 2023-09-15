@@ -13,7 +13,7 @@ import project.airbnb_backend_9.repository.user.UserRepository;
 import project.airbnb_backend_9.user.jwt.*;
 
 @Configuration
-@EnableWebSecurity //스프링 시큐리티 필터가 스프링 필터체인에 등록
+@EnableWebSecurity(debug = true) //스프링 시큐리티 필터가 스프링 필터체인에 등록
 @RequiredArgsConstructor
 public class SecurityConfig {
 

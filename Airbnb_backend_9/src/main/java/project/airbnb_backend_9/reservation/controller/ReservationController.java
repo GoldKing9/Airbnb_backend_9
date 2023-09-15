@@ -61,7 +61,7 @@ public class ReservationController {
                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
         return reservationService.singleResResponse(reservationId);
     }
-    @DeleteMapping("/accommodation/{reservationId}")
+    @DeleteMapping("/accommodation/reservations/{reservationId}")
     public String deleteReservation(@PathVariable Long reservationId, @AuthenticationPrincipal PrincipalDetails principalDetails){
         reservationService.deleteReservation(reservationId,principalDetails.getUsers().getUserId());
         return "delete";

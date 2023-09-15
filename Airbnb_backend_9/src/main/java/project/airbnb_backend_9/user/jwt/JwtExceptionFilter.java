@@ -3,6 +3,7 @@ package project.airbnb_backend_9.user.jwt;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,6 +28,10 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         catch (UnsupportedJwtException e){
             CustomAuthenticationEntryPoint.setResponse(response,"지원하지 않는 토큰입니다");
         }
+        catch (SignatureException e){
+            CustomAuthenticationEntryPoint.setResponse(response,"손상입은 토큰입니다");
+        }
+
 
     }
 
